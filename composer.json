@@ -1,0 +1,9 @@
+{
+    "name": "anomaly/category_discount_filter-extension",
+    "type": "streams-addon",
+    "autoload": {
+        "psr-4": {
+            "Anomaly\\CategoryDiscountFilterExtension\\": "src/"
+        }
+    }
+}
