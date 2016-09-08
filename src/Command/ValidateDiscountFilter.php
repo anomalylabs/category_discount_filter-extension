@@ -6,8 +6,6 @@ use Anomaly\DiscountsModule\Filter\Contract\FilterInterface;
 use Anomaly\ProductsModule\Category\Contract\CategoryInterface;
 use Anomaly\ProductsModule\Category\Contract\CategoryRepositoryInterface;
 use Anomaly\ProductsModule\Product\Contract\ProductInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class ValidateDiscountFilter
@@ -17,7 +15,7 @@ use Illuminate\Contracts\Config\Repository;
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\CategoryDiscountFilterExtension\Command
  */
-class ValidateDiscountFilter implements SelfHandling
+class ValidateDiscountFilter
 {
 
     /**

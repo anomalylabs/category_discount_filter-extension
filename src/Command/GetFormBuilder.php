@@ -6,7 +6,7 @@ use Anomaly\DiscountsModule\Filter\Contract\FilterInterface;
 use Anomaly\DiscountsModule\Filter\Extension\Contract\FilterExtensionInterface;
 use Anomaly\DiscountsModule\Filter\Extension\Form\FilterExtensionFormBuilder;
 use Anomaly\DiscountsModule\Filter\Form\FilterFormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class GetFormBuilder
@@ -16,7 +16,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\CategoryDiscountFilterExtension\Command
  */
-class GetFormBuilder implements SelfHandling
+class GetFormBuilder
 {
 
     /**
