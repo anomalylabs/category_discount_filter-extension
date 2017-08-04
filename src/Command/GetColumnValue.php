@@ -67,13 +67,14 @@ class GetColumnValue
         CategoryRepositoryInterface $categories,
         ConfigurationRepositoryInterface $configuration
     ) {
-        $scope = 'discount_' . $this->discount->getId() . '_' . $this->filter->getId();
-
-        $operator = $configuration->presenter('anomaly.extension.category_discount_filter::operator', $scope)->value;
+        $operator = $configuration->presenter(
+            'anomaly.extension.category_discount_filter::operator',
+            $this->filter->getId()
+        )->value;
 
         /* @var CategoryInterface $value */
         if ($value = $categories->find(
-            $configuration->value('anomaly.extension.category_discount_filter::value', $scope)
+            $configuration->value('anomaly.extension.category_discount_filter::value', $this->filter->getId())
         )
         ) {
             $value = $value->getName();

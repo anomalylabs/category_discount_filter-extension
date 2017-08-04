@@ -62,11 +62,9 @@ class ValidateDiscountFilter
      */
     public function handle(CategoryRepositoryInterface $categories, ConfigurationRepositoryInterface $configuration)
     {
-        $scope = 'discount_' . $this->discount->getId() . '_' . $this->filter->getId();
-
         /* @var CategoryInterface $value */
         if (!$value = $categories->find(
-            $configuration->value('anomaly.extension.category_discount_filter::value', $scope)
+            $configuration->value('anomaly.extension.category_discount_filter::value', $this->filter->getId())
         )
         ) {
             return false;
