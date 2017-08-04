@@ -43,9 +43,9 @@ class GetFormBuilder
     /**
      * Create a new GetFormBuilder instance.
      *
-     * @param FilterExtension $extension
-     * @param DiscountInterface        $discount
-     * @param FilterInterface          $filter
+     * @param FilterExtension   $extension
+     * @param DiscountInterface $discount
+     * @param FilterInterface   $filter
      */
     public function __construct(
         FilterExtension $extension,
