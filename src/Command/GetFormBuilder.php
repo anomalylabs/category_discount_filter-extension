@@ -3,7 +3,7 @@
 use Anomaly\ConfigurationModule\Configuration\Form\ConfigurationFormBuilder;
 use Anomaly\DiscountsModule\Discount\Contract\DiscountInterface;
 use Anomaly\DiscountsModule\Filter\Contract\FilterInterface;
-use Anomaly\DiscountsModule\Filter\Extension\Contract\FilterExtensionInterface;
+use Anomaly\DiscountsModule\Filter\Extension\FilterExtension;
 use Anomaly\DiscountsModule\Filter\Extension\Form\FilterExtensionFormBuilder;
 use Anomaly\DiscountsModule\Filter\Form\FilterFormBuilder;
 
@@ -36,19 +36,19 @@ class GetFormBuilder
     /**
      * The filter extension.
      *
-     * @var FilterExtensionInterface
+     * @var FilterExtension
      */
     protected $extension;
 
     /**
      * Create a new GetFormBuilder instance.
      *
-     * @param FilterExtensionInterface $extension
+     * @param FilterExtension $extension
      * @param DiscountInterface        $discount
      * @param FilterInterface          $filter
      */
     public function __construct(
-        FilterExtensionInterface $extension,
+        FilterExtension $extension,
         DiscountInterface $discount,
         FilterInterface $filter = null
     ) {
