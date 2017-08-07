@@ -91,7 +91,7 @@ class GetFormBuilder
                 'saved_filter',
                 function () use ($filter, $configuration) {
                     $configuration->setScope(
-                        'discount_' . $this->discount->getId() . '_' . $filter->getFormEntryId()
+                        $filter->getFormEntryId()
                     );
                 }
             );
