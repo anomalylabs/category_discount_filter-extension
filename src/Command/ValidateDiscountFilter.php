@@ -1,11 +1,11 @@
 <?php namespace Anomaly\CategoryDiscountFilterExtension\Command;
 
+use Anomaly\CartsModule\Item\Contract\ItemInterface;
+use Anomaly\CategoryDiscountFilterExtension\CategoryDiscountFilterExtension;
 use Anomaly\ConfigurationModule\Configuration\Contract\ConfigurationRepositoryInterface;
-use Anomaly\DiscountsModule\Discount\Contract\DiscountInterface;
-use Anomaly\DiscountsModule\Filter\Contract\FilterInterface;
 use Anomaly\ProductsModule\Category\Contract\CategoryInterface;
 use Anomaly\ProductsModule\Category\Contract\CategoryRepositoryInterface;
-use Anomaly\ProductsModule\Product\Contract\ProductInterface;
+use Anomaly\ProductsModule\Configuration\Contract\ConfigurationInterface;
 
 /**
  * Class ValidateDiscountFilter
@@ -19,59 +19,79 @@ class ValidateDiscountFilter
 {
 
     /**
-     * The filter interface.
+     * The extension instance.
      *
-     * @var FilterInterface
+     * @var CategoryDiscountFilterExtension
      */
-    protected $filter;
+    private $extension;
 
     /**
-     * The product instance.
+     * The target object.
      *
-     * @var ProductInterface
+     * @var mixed
      */
-    protected $product;
-
-    /**
-     * The discount interface.
-     *
-     * @var DiscountInterface
-     */
-    protected $discount;
+    private $target;
 
     /**
      * Create a new ValidateDiscountFilter instance.
      *
-     * @param ProductInterface  $product
-     * @param FilterInterface   $filter
-     * @param DiscountInterface $discount
+     * @param CategoryDiscountFilterExtension $extension
+     * @param                                      $target
      */
-    public function __construct(ProductInterface $product, FilterInterface $filter, DiscountInterface $discount)
+    public function __construct(CategoryDiscountFilterExtension $extension, $target)
     {
-        $this->filter   = $filter;
-        $this->product  = $product;
-        $this->discount = $discount;
+        $this->extension = $extension;
+        $this->target    = $target;
     }
 
     /**
      * Handle the command.
      *
-     * @param CategoryRepositoryInterface      $categories
+     * @param CategoryRepositoryInterface $categories
      * @param ConfigurationRepositoryInterface $configuration
      * @return string
      */
     public function handle(CategoryRepositoryInterface $categories, ConfigurationRepositoryInterface $configuration)
     {
+
+        /**
+         * We have to have an item since categories
+         * only exist on products via cart items.
+         */
+        if (!$this->target instanceof ItemInterface) {
+            return false;
+        }
+
+        /**
+         * We have to have a purchasable item
+         * which should be a configuration.
+         */
+        if (!$purchasable = $this->target->getEntry()) {
+            return false;
+        }
+
+        /**
+         * Make sure we have the
+         * interface we need,
+         */
+        if (!$purchasable instanceof ConfigurationInterface) {
+            return false;
+        }
+
         /* @var CategoryInterface $value */
         if (!$value = $categories->find(
-            $configuration->value('anomaly.extension.category_discount_filter::value', $this->filter->getId())
+            $configuration->value(
+                'anomaly.extension.category_discount_filter::value',
+                $this->extension->getFilter()->getId()
+            )
         )
         ) {
             return false;
         }
 
-        $categories = $this->product->getCategories();
-
-        return $categories->has($value->getId());
+        return $purchasable
+            ->getProduct()
+            ->getCategories()
+            ->find($value);
     }
 }
